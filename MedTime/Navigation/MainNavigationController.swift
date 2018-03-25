@@ -68,7 +68,12 @@ class MainNavigationController: UINavigationController {
         for observerTitle in observers{
             print(observerTitle.rawValue)
             let observer: NSObjectProtocol = notificationCenter.addObserver(forName: observerTitle, object: nil, queue: nil, using: { [weak self] (notification) in
+                if notification.name.rawValue == Notifications.NavigationNotifications.details.rawValue{
+                    self?.switchViewTo(UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "Details"))
+                    
+                }else{
                     self?.switchViewTo(Notifications.notificationToViewController[notification.name.rawValue]!.init())
+                }
             })
             self.observers.append(observer)
         }
